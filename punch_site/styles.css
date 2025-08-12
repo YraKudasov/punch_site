@@ -1,40 +1,41 @@
 body {
   background: #222;
   color: #eee;
-  font-family: 'Oswald', sans-serif; 
+  font-family: 'Oswald', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh; /* Используем минимум высоту viewport'a */
   margin: 0;
   user-select: none;
-    padding: 20px;
+  padding: 20px;
   box-sizing: border-box;
+}
+
+.container {
+  width: 100%; /* Ширина контейнера должна занимать всю доступную область */
+  text-align: center;
+  position: relative;
 }
 
 
 h1 { font-family: 'Oswald', sans-serif; 
   font-size:50px;
   text-align: center; 
-  margin-bottom: 100px; 
   transform: skew(-10deg); /* Наклон текста */ 
 }
 
 .fist-icon { 
-   font-size: 1.5em; /* Размер иконки */ 
-   vertical-align: middle;/* Центрирование относительно текста */ 
+   font-size: 1em; /* Размер иконки */ 
+   vertical-align: top;/* Центрирование относительно текста */ 
   }
 
-.container {
-  text-align: center;
-  position: relative;
-}
 
 /* Кнопка-груша */
 .punch-bag {
   position: relative;
-  width: 120px;
+  width: 360px; /* Увеличенная ширина, чтобы включить два круга слева и справа */
   height: 180px;
   margin: 40px auto 20px;
   cursor: pointer;
@@ -134,7 +135,7 @@ h1 { font-family: 'Oswald', sans-serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: #ffa07a;
-  margin-top: 6px;
+  margin-top: 50px;
   min-height: 24px;
   user-select: none;
 }
@@ -168,42 +169,34 @@ h1 { font-family: 'Oswald', sans-serif;
   100% { opacity: 0; transform: translateX(-50%) scale(1.5); }
 }
 
-/* Шкалы силы удара (SVG) */
-.power-bar {
+/* Новый большой круг */
+.big-circle {
   position: absolute;
-  top: 20px;
-  width: 120px;
-  height: 120px;
+  top: 0;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translateX(-50%);
   pointer-events: none;
-  z-index: 5;
+  z-index: 1; /* За грушей */
 }
 
-.power-bar.left {
-  left: -140px;
-  transform: rotate(90deg);
-}
-
-.power-bar.right {
-  right: -140px;
-  transform: rotate(-90deg);
-}
-
-.power-bar circle {
+.bg-circle {
   fill: none;
-  stroke-width: 12;
-  stroke-linecap: round;
-}
-
-.bar-bg {
   stroke: #444;
+  stroke-width: 20;
+  stroke-opacity: 0.5;
 }
 
-.bar-fill {
+.fill-circle {
+  fill: none;
   stroke: #ff4444;
-  stroke-dasharray: 339.292; /* 2 * π * 54 */
-  stroke-dashoffset: 339.292;
-  transition: stroke-dashoffset 0.5s ease;
+  stroke-width: 20;
+  stroke-dasharray: 879.646; /* Длина окружности радиусом 140px */
+  stroke-dashoffset: 879.646; /* Начальная позиция (полностью пустое кольцо) */
+  transition: stroke-dashoffset 0.5s ease; /* Время перехода */
 }
+
 
 @keyframes pulse {
   0%, 100% {
@@ -264,4 +257,33 @@ h1 { font-family: 'Oswald', sans-serif;
   font-size: 16px;
   text-align: center;
   color: #ffffff;
+}
+
+.rating-tooltip {
+  position: absolute;
+  background-color: rgb(70, 70, 70);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 200px;
+  transition-delay: 0.1s;
+}
+
+.tooltip-icon {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.tooltip-label {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.tooltip-weight {
+  text-align: center;
+  color: #dbdbdb;
 }

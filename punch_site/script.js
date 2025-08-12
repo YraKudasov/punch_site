@@ -1,8 +1,8 @@
 const punchBag = document.getElementById('punchBag');
 const powerDisplay = document.getElementById('powerDisplay');
 const powerRating = document.getElementById('powerRating');
-const leftBar = punchBag.querySelector('.power-bar.left .bar-fill');
-const rightBar = punchBag.querySelector('.power-bar.right .bar-fill');
+const fillCircle = document.querySelector('.fill-circle'); // Новое обращение к единственному кругу
+
 punchBag.classList.add('idle');
 
 const MAX_POWER = 850;
@@ -19,6 +19,36 @@ const ratings = [
 
 const ratingScale = document.getElementById('ratingScale');
 
+// Создаем элемент для подсказки
+const tooltip = document.createElement('div');
+tooltip.className = 'rating-tooltip';
+tooltip.style.display = 'none';
+document.body.appendChild(tooltip);
+
+// Функция для показа подсказки
+function showTooltip(event, rating) {
+  tooltip.innerHTML = `
+    <div class="tooltip-icon">${rating.icon}</div>
+    <div class="tooltip-label">${rating.label}</div>
+    <div class="tooltip-weight">Требуется: ${rating.weight}</div>
+  `;
+  tooltip.style.display = 'block';
+  tooltip.style.left = `${event.pageX + 10}px`;
+  tooltip.style.top = `${event.pageY + 10}px`;
+}
+
+// Функция для скрытия подсказки
+function hideTooltip() {
+  tooltip.style.display = 'none';
+}
+
+// Обработчик клика по документу
+document.addEventListener('click', (event) => {
+  if (!tooltip.contains(event.target)) {
+    hideTooltip();
+  }
+});
+
 ratings.forEach(rating => {
   const item = document.createElement('div');
   item.className = 'rating-item';
@@ -34,20 +64,28 @@ ratings.forEach(rating => {
   item.appendChild(icon);
   item.appendChild(label);
   ratingScale.appendChild(item);
-});
 
+  // Добавляем обработчики для показа подсказки
+  item.addEventListener('mouseenter', (event) => {
+    showTooltip(event, rating);
+  });
+  item.addEventListener('mouseleave', hideTooltip);
+  item.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
+});
 
 function getRandomPower() {
   return Math.floor(Math.random() * (MAX_POWER - MIN_POWER + 1)) + MIN_POWER;
 }
 
 function getRating(power) {
-  let result = ratings[0].label; // по умолчанию самый маленький рейтинг
+  let result = ratings[0].label; // По умолчанию самый низкий рейтинг
   for (const r of ratings) {
     if (power >= r.max) {
       result = r.label;
     } else {
-      break; // дальше уже больше не подходит
+      break; // Далее уже не подходит
     }
   }
   return result;
@@ -83,37 +121,33 @@ function animatePowerDisplay(targetPower, duration = 1500) {
   });
 }
 
-function updatePowerBars(power) {
-  const circumference = 2 * Math.PI * 54;
+function updateBigCircle(power) {
+  const circumference = 2 * Math.PI * 140; // Наш новый радиус составляет 140px
   const ratio = Math.min(power / MAX_POWER, 1);
   const offset = circumference * (1 - ratio);
 
-  leftBar.style.strokeDashoffset = offset;
-  rightBar.style.strokeDashoffset = offset;
+  fillCircle.style.strokeDashoffset = offset.toString();
 }
 
-function resetPowerBars() {
-  const circumference = 2 * Math.PI * 54;
-  leftBar.style.strokeDashoffset = circumference;
-  rightBar.style.strokeDashoffset = circumference;
+function resetBigCircle() {
+  const circumference = 2 * Math.PI * 140;
+  fillCircle.style.strokeDashoffset = circumference.toString();
 }
 
 let currentPower = 0;
-let hideTimeoutId = null; // для хранения ID таймера скрытия
+let hideTimeoutId = null; // Хранение таймаута
 
 async function playHitAnimation() {
-  // Если анимация уже идёт, сбрасываем таймер скрытия и сбрасываем анимацию
   if (punchBag.classList.contains('animating')) {
     if (hideTimeoutId) {
       clearTimeout(hideTimeoutId);
       hideTimeoutId = null;
     }
-    // Сбрасываем классы, чтобы анимация могла запуститься заново
     punchBag.classList.remove('recoil', 'hit');
-    resetPowerBars();
+    resetBigCircle();
   }
 
-  punchBag.classList.remove('idle'); // выключаем пульсацию
+  punchBag.classList.remove('idle');
   punchBag.classList.add('animating');
 
   punchBag.classList.add('hit');
@@ -136,27 +170,25 @@ async function playHitAnimation() {
   powerDisplay.classList.remove('hidden');
   powerRating.textContent = '';
 
-  resetPowerBars();
+  resetBigCircle();
 
   await animatePowerDisplay(currentPower);
 
-  updatePowerBars(currentPower);
+  updateBigCircle(currentPower);
 
   powerRating.textContent = getRating(currentPower);
 }
 
-// Обработчик animationend вынесен отдельно и добавлен один раз
 function onAnimationEnd(e) {
   if (e.animationName === 'recoilMove') {
     punchBag.classList.remove('recoil');
 
-    // Запускаем таймер скрытия, который можно сбросить при новом клике
     hideTimeoutId = setTimeout(() => {
       powerDisplay.classList.add('hidden');
       powerRating.textContent = '';
-      resetPowerBars();
+      resetBigCircle();
       punchBag.classList.remove('animating');
-      punchBag.classList.add('idle'); // включаем пульсацию обратно
+      punchBag.classList.add('idle');
       hideTimeoutId = null;
     }, 10000);
   }

@@ -9,27 +9,20 @@
 </head>
 <body>
   <div class="container">
-
     <h1>ПРОБЕЙ ГРУШУ<span class="fist-icon">👊</span></h1>
-
     <div class="punch-bag" id="punchBag" tabindex="0" role="button" aria-label="Кнопка груша силомер">
       <div class="punch-bag__top"></div>
       <div class="punch-bag__rope"></div>
       <div class="punch-bag__body"></div>
-      <!-- Шкалы по бокам -->
-      <svg class="power-bar left" viewBox="0 0 120 120" aria-hidden="true">
-        <circle class="bar-bg" cx="60" cy="60" r="54" />
-        <circle class="bar-fill" cx="60" cy="60" r="54" />
-      </svg>
-      <svg class="power-bar right" viewBox="0 0 120 120" aria-hidden="true">
-        <circle class="bar-bg" cx="60" cy="60" r="54" />
-        <circle class="bar-fill" cx="60" cy="60" r="54" />
+      <svg class="big-circle" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <circle class="bg-circle" cx="150" cy="150" r="140"/>
+        <circle class="fill-circle" cx="150" cy="150" r="140"/>
       </svg>
     </div>
     <div class="power-display hidden" id="powerDisplay">0 кг</div>
     <div class="power-rating" id="powerRating"></div>
     <div class="hint">Нажмите на грушу, чтобы ударить</div>
-      <div class="rating-scale" id="ratingScale"></div>
+    <div class="rating-scale" id="ratingScale"></div>
   </div>
 
   <script src="script.js"></script>
