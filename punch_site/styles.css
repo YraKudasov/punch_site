@@ -1,0 +1,267 @@
+body {
+  background: #222;
+  color: #eee;
+  font-family: 'Oswald', sans-serif; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  user-select: none;
+    padding: 20px;
+  box-sizing: border-box;
+}
+
+
+h1 { font-family: 'Oswald', sans-serif; 
+  font-size:50px;
+  text-align: center; 
+  margin-bottom: 100px; 
+  transform: skew(-10deg); /* Наклон текста */ 
+}
+
+.fist-icon { 
+   font-size: 1.5em; /* Размер иконки */ 
+   vertical-align: middle;/* Центрирование относительно текста */ 
+  }
+
+.container {
+  text-align: center;
+  position: relative;
+}
+
+/* Кнопка-груша */
+.punch-bag {
+  position: relative;
+  width: 120px;
+  height: 180px;
+  margin: 40px auto 20px;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Форма груши - овал с "хвостиком" */
+.punch-bag__body {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100px;
+  height: 140px;
+  background: linear-gradient(135deg, #d33 0%, #800 70%);
+  border-radius: 50% / 70%;
+  box-shadow:
+    inset 0 10px 20px rgba(255, 100, 100, 0.7),
+    0 8px 15px rgba(0,0,0,0.8);
+  transform: translateX(-50%);
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,0.5));
+  z-index: 10;
+}
+
+/* Верхняя часть - крепление */
+.punch-bag__top {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #555, #222);
+  border-radius: 20px 20px 10px 10px;
+  box-shadow: inset 0 2px 5px #999;
+  transform: translateX(-50%);
+  z-index: 11;
+}
+
+/* "Верёвка" крепления */
+.punch-bag__rope {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 6px;
+  height: 30px;
+  background: repeating-linear-gradient(
+    45deg,
+    #ccc,
+    #ccc 2px,
+    #999 2px,
+    #999 4px
+  );
+  border-radius: 3px;
+  transform: translateX(-50%);
+  z-index: 11;
+}
+
+/* Анимация удара: сжатие груши */
+.punch-bag.hit .punch-bag__body {
+  animation: squash 0.15s ease forwards;
+}
+
+@keyframes squash {
+  0% { transform: translateX(-50%) scale(1,1); }
+  50% { transform: translateX(-50%) scale(1.1,0.8); }
+  100% { transform: translateX(-50%) scale(1,1); }
+}
+
+/* Анимация отлёта назад */
+.punch-bag.recoil {
+  animation: recoilMove 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes recoilMove {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); }
+  50% { transform: translateX(-120px) translateY(-40px) rotate(-15deg); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+/* Отображение силы удара */
+.power-display {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ff4444;
+  text-shadow: 0 0 8px #ff4444aa;
+  min-height: 50px;
+  user-select: none;
+  transition: opacity 0.3s ease;
+}
+
+.power-display.hidden {
+  opacity: 0;
+}
+
+/* Рейтинг силы удара */
+.power-rating {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffa07a;
+  margin-top: 6px;
+  min-height: 24px;
+  user-select: none;
+}
+
+/* Подсказка */
+.hint {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  color: #aaa;
+  margin-top: 10px;
+}
+
+/* Эффект вспышки при ударе */
+.flash {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255,100,100,0.6) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.8);
+  animation: flashAnim 0.3s ease forwards;
+  z-index: 9;
+}
+
+@keyframes flashAnim {
+  0% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.5); }
+}
+
+/* Шкалы силы удара (SVG) */
+.power-bar {
+  position: absolute;
+  top: 20px;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.power-bar.left {
+  left: -140px;
+  transform: rotate(90deg);
+}
+
+.power-bar.right {
+  right: -140px;
+  transform: rotate(-90deg);
+}
+
+.power-bar circle {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.bar-bg {
+  stroke: #444;
+}
+
+.bar-fill {
+  stroke: #ff4444;
+  stroke-dasharray: 339.292; /* 2 * π * 54 */
+  stroke-dashoffset: 339.292;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    filter: drop-shadow(0 3px 2px rgba(0,0,0,0.5));
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+    filter: drop-shadow(0 6px 4px rgba(255, 68, 68, 0.7));
+  }
+}
+
+/* Пульсация для груши в состоянии ожидания */
+.punch-bag.idle .punch-bag__body {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+
+
+/* Контейнер для шкалы рейтинга */
+.rating-scale {
+  margin-top: 10px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* чтобы при узких экранах элементы переносились */
+  justify-content: center; /* центрируем элементы внутри контейнера */
+  max-width: 100%;
+}
+
+/* Элементы рейтинга */
+.rating-item {
+   font-family: 'Oswald', sans-serif; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  cursor: default;
+  user-select: none;
+
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.rating-item:hover {
+  transform: scale(1.05);
+}
+
+.rating-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.rating-label {
+   font-family: 'Oswald', sans-serif; 
+  font-weight: 200;
+  font-size: 16px;
+  text-align: center;
+  color: #ffffff;
+}
