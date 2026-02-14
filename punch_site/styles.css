@@ -1,41 +1,83 @@
 body {
-  background: #222;
+  background: linear-gradient(135deg, #2c3e50, #1a1a2e);
   color: #eee;
   font-family: 'Oswald', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; /* Используем минимум высоту viewport'a */
+  min-height: 100vh;
   margin: 0;
   user-select: none;
   padding: 20px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .container {
-  width: 100%; /* Ширина контейнера должна занимать всю доступную область */
+  width: 100%;
   text-align: center;
   position: relative;
+  max-width: 800px;
 }
 
-
-h1 { font-family: 'Oswald', sans-serif; 
-  font-size:50px;
+h1 { 
+  font-family: 'Oswald', sans-serif; 
+  font-size: 50px;
   text-align: center; 
-  transform: skew(-10deg); /* Наклон текста */ 
+  transform: skew(-10deg);
+  margin-bottom: 20px;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 .fist-icon { 
-   font-size: 1em; /* Размер иконки */ 
-   vertical-align: top;/* Центрирование относительно текста */ 
+   font-size: 1em;
+   vertical-align: top;
   }
 
+/* Статистика игры */
+.game-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: rgba(255,255,255,0.1);
+  padding: 15px 25px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff4444;
+  text-shadow: 0 0 10px #ff4444aa;
+}
 
 /* Кнопка-груша */
 .punch-bag {
   position: relative;
-  width: 360px; /* Увеличенная ширина, чтобы включить два круга слева и справа */
+  width: 360px;
   height: 180px;
   margin: 40px auto 20px;
   cursor: pointer;
@@ -43,7 +85,10 @@ h1 { font-family: 'Oswald', sans-serif;
   transition: box-shadow 0.2s ease;
 }
 
-/* Форма груши - овал с "хвостиком" */
+.punch-bag:hover {
+  filter: brightness(1.1);
+}
+
 .punch-bag__body {
   position: absolute;
   bottom: 0;
@@ -60,7 +105,6 @@ h1 { font-family: 'Oswald', sans-serif;
   z-index: 10;
 }
 
-/* Верхняя часть - крепление */
 .punch-bag__top {
   position: absolute;
   top: 0;
@@ -74,7 +118,6 @@ h1 { font-family: 'Oswald', sans-serif;
   z-index: 11;
 }
 
-/* "Верёвка" крепления */
 .punch-bag__rope {
   position: absolute;
   top: 10px;
@@ -93,7 +136,7 @@ h1 { font-family: 'Oswald', sans-serif;
   z-index: 11;
 }
 
-/* Анимация удара: сжатие груши */
+/* Анимации */
 .punch-bag.hit .punch-bag__body {
   animation: squash 0.15s ease forwards;
 }
@@ -104,7 +147,6 @@ h1 { font-family: 'Oswald', sans-serif;
   100% { transform: translateX(-50%) scale(1,1); }
 }
 
-/* Анимация отлёта назад */
 .punch-bag.recoil {
   animation: recoilMove 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
@@ -140,7 +182,37 @@ h1 { font-family: 'Oswald', sans-serif;
   user-select: none;
 }
 
-/* Подсказка */
+/* Бонусный текст */
+.bonus-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700aa;
+  margin-top: 10px;
+  min-height: 30px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.bonus-display.show {
+  opacity: 1;
+  transform: translateY(0);
+  animation: bonusPulse 0.5s ease;
+}
+
+@keyframes bonusPulse {
+  0% { transform: translateY(20px) scale(0.8); }
+  50% { transform: translateY(0) scale(1.2); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.bonus-display.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Подсказки */
 .hint {
   font-family: 'Oswald', sans-serif;
   font-size: 1rem;
@@ -169,7 +241,7 @@ h1 { font-family: 'Oswald', sans-serif;
   100% { opacity: 0; transform: translateX(-50%) scale(1.5); }
 }
 
-/* Новый большой круг */
+/* Большой круг */
 .big-circle {
   position: absolute;
   top: 0;
@@ -178,7 +250,7 @@ h1 { font-family: 'Oswald', sans-serif;
   height: 300px;
   transform: translateX(-50%);
   pointer-events: none;
-  z-index: 1; /* За грушей */
+  z-index: 1;
 }
 
 .bg-circle {
@@ -192,11 +264,10 @@ h1 { font-family: 'Oswald', sans-serif;
   fill: none;
   stroke: #ff4444;
   stroke-width: 20;
-  stroke-dasharray: 879.646; /* Длина окружности радиусом 140px */
-  stroke-dashoffset: 879.646; /* Начальная позиция (полностью пустое кольцо) */
-  transition: stroke-dashoffset 0.5s ease; /* Время перехода */
+  stroke-dasharray: 879.646;
+  stroke-dashoffset: 879.646;
+  transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;
 }
-
 
 @keyframes pulse {
   0%, 100% {
@@ -209,33 +280,28 @@ h1 { font-family: 'Oswald', sans-serif;
   }
 }
 
-/* Пульсация для груши в состоянии ожидания */
 .punch-bag.idle .punch-bag__body {
   animation: pulse 2s ease-in-out infinite;
 }
 
-
-
-/* Контейнер для шкалы рейтинга */
+/* Шкала рейтинга */
 .rating-scale {
   margin-top: 10px;
   display: flex;
   gap: 20px;
-  flex-wrap: wrap; /* чтобы при узких экранах элементы переносились */
-  justify-content: center; /* центрируем элементы внутри контейнера */
+  flex-wrap: wrap;
+  justify-content: center;
   max-width: 100%;
 }
 
-/* Элементы рейтинга */
 .rating-item {
-   font-family: 'Oswald', sans-serif; 
+  font-family: 'Oswald', sans-serif; 
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100px;
   cursor: default;
   user-select: none;
-
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -252,13 +318,14 @@ h1 { font-family: 'Oswald', sans-serif;
 }
 
 .rating-label {
-   font-family: 'Oswald', sans-serif; 
+  font-family: 'Oswald', sans-serif; 
   font-weight: 200;
   font-size: 16px;
   text-align: center;
   color: #ffffff;
 }
 
+/* Подсказка при наведении */
 .rating-tooltip {
   position: absolute;
   background-color: rgb(70, 70, 70);
@@ -286,4 +353,56 @@ h1 { font-family: 'Oswald', sans-serif;
 .tooltip-weight {
   text-align: center;
   color: #dbdbdb;
+}
+
+/* Мобильные устройства */
+@media (max-width: 600px) {
+  h1 { font-size: 36px; }
+  .game-stats { flex-direction: column; align-items: center; }
+  .stat-item { width: 80%; }
+  .punch-bag { width: 280px; height: 140px; }
+  
+  /* Уменьшаем анимацию отлёта для мобильных */
+  .punch-bag.recoil {
+    animation: recoilMoveMobile 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  @keyframes recoilMoveMobile {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); }
+    50% { transform: translateX(-60px) translateY(-20px) rotate(-10deg); }
+    100% { transform: translateX(0) translateY(0) rotate(0deg); }
+  }
+  
+  /* Уменьшаем размер круга для мобильных */
+  .big-circle {
+    width: 200px;
+    height: 200px;
+  }
+  
+  /* Обновляем размеры элементов груши */
+  .punch-bag__body {
+    width: 80px;
+    height: 110px;
+  }
+  
+  .punch-bag__top {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .punch-bag__rope {
+    width: 5px;
+    height: 25px;
+  }
+  
+  .flash {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .power-display { font-size: 2.5rem; }
+  .rating-scale { gap: 15px; }
+  .rating-item { width: 80px; }
+  .rating-icon { font-size: 36px; }
+  .rating-label { font-size: 14px; }
 }
