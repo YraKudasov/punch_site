@@ -8,7 +8,7 @@ const bonusDisplay = document.getElementById('bonusDisplay');
 
 punchBag.classList.add('idle');
 
-const MAX_POWER = 850;
+const MAX_POWER = 1050;
 const MIN_POWER = 30;
 
 // Initialize global high score (use localStorage only)
@@ -27,7 +27,10 @@ const ratings = [
   { max: 560, label: 'Где это физика?', weight: '560кг', icon: '🤯', color: '#2ecc71' },
   { max: 650, label: 'Супергерой', weight: '650кг', icon: '🦸', color: '#1abc9c' },
   { max: 740, label: 'Майк Тайсон', weight: '740кг', icon: '👑', color: '#f1c40f' },
-  { max: 850, label: 'Босс', weight: '850кг', icon: '💀', color: '#e74c3c' }
+  { max: 830, label: 'Босс', weight: '830кг', icon: '💀', color: '#e74c3c' },
+  { max: 920, label: 'Дима подтопляет', weight: '920кг', icon: '💦', color: '#1e90ff' },
+  { max: 1000, label: 'Мама Минькова', weight: '1000кг', icon: '👩‍👦', color: '#ff69b4' },
+  { max: 1050, label: 'Влад Лясковец', weight: '1050кг', icon: '💰', color: '#ffd700' }
 ];
 
 const ratingScale = document.getElementById('ratingScale');
