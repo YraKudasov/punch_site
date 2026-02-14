@@ -14,24 +14,25 @@ const MIN_POWER = 30;
 // Initialize global high score (use localStorage only)
 let globalHighScore = parseInt(localStorage.getItem('punchHighScore')) || 0;
 highScoreDisplay.textContent = `Рекорд: ${globalHighScore} кг`;
-
 const ratings = [
-  { max: 30, label: 'Амёба', weight: '30кг', icon: '🐛', color: '#ffd700' },
-  { max: 70, label: 'Слабак', weight: '70кг', icon: '👶', color: '#ffb347' },
-  { max: 120, label: 'Новичок', weight: '120кг', icon: '🥺', color: '#ff8c42' },
-  { max: 180, label: 'Любитель', weight: '180кг', icon: '🤼', color: '#ff6b6b' },
-  { max: 250, label: 'Спортсмен', weight: '250кг', icon: '🏃', color: '#ee5a6f' },
-  { max: 320, label: 'Ученый', weight: '320кг', icon: '🧠', color: '#cc5de8' },
-  { max: 400, label: 'Боец', weight: '400кг', icon: '🥋', color: '#8e44ad' },
-  { max: 480, label: 'Профессионал', weight: '480кг', icon: '🥊', color: '#3498db' },
-  { max: 560, label: 'Где это физика?', weight: '560кг', icon: '🤯', color: '#2ecc71' },
-  { max: 650, label: 'Супергерой', weight: '650кг', icon: '🦸', color: '#1abc9c' },
-  { max: 740, label: 'Майк Тайсон', weight: '740кг', icon: '👑', color: '#f1c40f' },
-  { max: 830, label: 'Босс', weight: '830кг', icon: '💀', color: '#e74c3c' },
-  { max: 920, label: 'Дима подтопляет', weight: '920кг', icon: '💦', color: '#1e90ff' },
-  { max: 1000, label: 'Мама Минькова', weight: '1000кг', icon: '👩‍👦', color: '#ff69b4' },
-  { max: 1050, label: 'Влад Лясковец', weight: '1050кг', icon: '💰', color: '#ffd700' }
+  { max: 30, label: 'Мистер Бин', weight: '30кг', icon: '🧥', color: '#dcdcdc' },
+  { max: 70, label: 'Гарри Поттер', weight: '70кг', icon: '🪄', color: '#6c5ce7' },
+  { max: 120, label: 'Человек-паук', weight: '120кг', icon: '🕷️', color: '#ff4c4c' },
+  { max: 180, label: 'Капитан Америка', weight: '180кг', icon: '🛡️', color: '#2b6cb0' },
+  { max: 250, label: 'Криштиану Роналду', weight: '250кг', icon: '⚽', color: '#f5af19' },
+  { max: 320, label: 'Конор Макгрегор', weight: '320кг', icon: '🥊', color: '#2ecc71' },
+  { max: 400, label: 'Хабиб Нурмагомедов', weight: '400кг', icon: '🦅', color: '#8e44ad' },
+  { max: 480, label: 'Дуэйн "Скала" Джонсон', weight: '480кг', icon: '🪨', color: '#7f8c8d' },
+  { max: 560, label: 'Бэтмен', weight: '560кг', icon: '🦇', color: '#4d5e03' },
+  { max: 650, label: 'Тор', weight: '650кг', icon: '⚡', color: '#3498db' },
+  { max: 750, label: 'Халк', weight: '750кг', icon: '💚', color: '#27ae60' },
+  { max: 830, label: 'Мелстрой', weight: '830кг', icon: '💸', color: '#ff0000' },
+  { max: 920, label: 'Кратос', weight: '920кг', icon: '🪓', color: '#c0392b' },
+  { max: 1000, label: 'Супермен', weight: '1000кг', icon: '🦸‍♂️', color: '#2980b9' },
+  { max: 1050, label: 'Танос', weight: '1100кг', icon: '🟣', color: '#6c5ce7' }
 ];
+
+
 
 const ratingScale = document.getElementById('ratingScale');
 
