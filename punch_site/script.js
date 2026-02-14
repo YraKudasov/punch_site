@@ -29,7 +29,7 @@ const ratings = [
   { max: 830, label: 'Мелстрой', weight: '830кг', icon: '💸', color: '#ff0000' },
   { max: 920, label: 'Кратос', weight: '920кг', icon: '🪓', color: '#c0392b' },
   { max: 1000, label: 'Супермен', weight: '1000кг', icon: '🦸‍♂️', color: '#2980b9' },
-  { max: 1050, label: 'Танос', weight: '1100кг', icon: '🟣', color: '#6c5ce7' }
+  { max: 1050, label: 'Танос', weight: '1050кг', icon: '🟣', color: '#6c5ce7' }
 ];
 
 
